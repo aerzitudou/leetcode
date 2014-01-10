@@ -1,0 +1,75 @@
+public class Solution {
+public int evalRPN(String[] tokens) {
+        Deque<String> delimiterStack=new ArrayDeque<String>();
+        int stringlength=tokens.length;
+        int index=0;
+        String operandOne;
+        String operandTwo;
+
+
+        while(index<stringlength){
+           String nextString= tokens[index];
+
+           switch(nextString){
+
+              case "+": case"-": case"*":case"/":
+              {
+              operandTwo=delimiterStack.pop();
+              operandOne=delimiterStack.pop();
+              
+              int result=calculate(operandOne, nextString, operandTwo);
+              delimiterStack.push(String.valueOf(result));
+              index++;
+              break;
+              }
+
+              default:
+              {
+                delimiterStack.push(nextString);
+                index++;
+                break;
+              }
+              
+              
+
+           }
+
+
+        }
+        
+        
+       return Integer.parseInt(delimiterStack.peek());
+    }
+
+    public static int calculate(String a, String b, String c){
+         //calculate operations
+
+         double firstNum=Double.parseDouble(a);
+         double secondNum=Double.parseDouble(c);
+         switch(b){
+            case "+":
+            return (int) (firstNum+secondNum);
+
+            case "-":
+            return (int) (firstNum-secondNum);
+
+            case "*":
+            return (int) (firstNum*secondNum);
+            
+            case "/":
+            {	
+            if(secondNum==0)
+            return Integer.MAX_VALUE;
+            else{
+            return (int) (firstNum/secondNum);
+            }
+            }
+            
+            default: return 0;
+
+            
+         }
+
+}
+
+}
